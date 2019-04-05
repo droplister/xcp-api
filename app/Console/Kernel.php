@@ -24,8 +24,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        // Useful Switch
+        if (config('xcp-core.indexing')) {
+            $schedule->command('update:index')->everyMinute();
+        }
+
+        // Horizon Stats
+        $schedule->command('horizon:snapshot')->everyFiveMinutes();
     }
 
     /**
